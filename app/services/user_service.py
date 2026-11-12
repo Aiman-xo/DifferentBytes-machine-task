@@ -5,8 +5,8 @@ from fastapi import HTTPException
 
 def add_user_service(user:UserCreation,db:Session):
     try:
-        user = db.query(User).filter(User.username == user.username).first()
-        if not user:
+        existing_user = db.query(User).filter(User.username == user.username).first()
+        if existing_user:
             raise HTTPException(status_code=400,detail='user already exists')
 
         new_user = User(
